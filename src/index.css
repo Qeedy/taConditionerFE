@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.navbar-custom {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.custom-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-btn:hover {
+  background-color: #45a049;
+}
+
+.grey-btn {
+  background-color: #E5E8EB;
+  color: #000; /* Warna teks */
+  border: 1px solid #ccc; /* Opsional */
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.grey-btn:hover {
+  background-color: #d1d5d8; /* Warna saat hover */
+}
+
+.custom-table tbody tr {
+  height: 70px; /* Adjust row spacing */
+}
+
+/* Header styling for better clarity */
+.custom-table thead th {
+  padding: 20px 12px; /* Increase padding */
+  background-color: #f8f9fa; /* Soft background */
+  text-align: center; /* Center text */
+}
+
+/* Table body alignment */
+.custom-table tbody td {
+  padding: 18px 12px; /* Increase padding for spacing */
+  text-align: center; /* Center text */
+}
+
+/* Hover effect for better readability */
+.custom-table tbody tr:hover {
+  background-color: #f1f3f5;
+  transition: background 0.2s ease-in-out;
+}
+/* Membuat pagination lebih renggang */
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px; /* Jarak antar item */
+  margin-top: 20px;
+}
+
+/* Membuat item pagination berbentuk bulat */
+.custom-pagination .page-item {
+  border-radius: 50%; /* Membuat bentuk bulat sempurna */
+  width: 40px; /* Lebar item */
+  height: 40px; /* Tinggi item */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  background-color: white; /* Pastikan latar belakang putih */
+  transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+/* Styling untuk item pagination yang aktif */
+.custom-pagination .page-item.active {
+  background-color: #007bff; /* Warna utama */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Styling untuk pagination arrow */
+.custom-pagination .page-item:first-child,
+.custom-pagination .page-item:last-child {
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+/* Hover effect */
+.custom-pagination .page-item:hover {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
