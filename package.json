@@ -28,10 +28,11 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^4.2.4",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
-    "@fortawesome/fontawesome-svg-core": "^6.7.2"
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "serve": "^14.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build -l 8080",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
