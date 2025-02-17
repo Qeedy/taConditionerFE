@@ -1,29 +1,32 @@
-# Stage 1: Build
+# Tahap 1: Build React App
 FROM node:18 AS builder
 
-# Set direktori kerja di dalam container
+# Set working directory
 WORKDIR /app
 
-# Salin file package.json dan package-lock.json (jika ada)
+# Salin package.json dan package-lock.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
-# Salin seluruh source code ke dalam container
+# Salin semua file proyek ke dalam container
 COPY . .
 
-# Build aplikasi React (akan menghasilkan folder build)
+# Build aplikasi React untuk produksi
 RUN npm run build
 
-# Stage 2: Serve dengan Nginx
+# Tahap 2: Gunakan Nginx untuk serving React App
 FROM nginx:alpine
 
-# Salin hasil build dari stage builder ke direktori yang dilayani Nginx
+# Salin file hasil build dari tahap sebelumnya ke folder Nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+# Ubah konfigurasi Nginx agar mendengarkan di port 8080 (sesuai Cloud Run)
+RUN sed -i 's/listen 80;/listen 8080;/' /etc/nginx/conf.d/default.conf
 
-# Jalankan Nginx dalam mode foreground
+# Expose port 8080 agar sesuai dengan Cloud Run
+EXPOSE 8080
+
+# Jalankan Nginx
 CMD ["nginx", "-g", "daemon off;"]
