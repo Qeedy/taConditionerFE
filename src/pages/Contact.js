@@ -1,9 +1,9 @@
-import React from 'react';
-import { CButton, CCard, CCardBody, CCardText, CCardTitle, CFormGroup, CCol, CContainer, CForm, CFormInput, CFormLabel, CRow, CFormTextarea } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
+import { CButton, CCard, CCardBody, CCardText, CCardTitle, CCol, CContainer, CForm, CFormInput, CFormLabel, CFormTextarea, CRow } from '@coreui/react';
+import React from 'react';
 import { Banner } from '../components/Banner';
-import sampleImage from '../images/contactUs.png'
+import sampleImage from '../images/contactUs.png';
 const Contact = () => {
     return (
       <CContainer className="px-3 py-5">

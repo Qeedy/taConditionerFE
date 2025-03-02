@@ -14,7 +14,6 @@ import CIcon from "@coreui/icons-react";
 import * as icon from "@coreui/icons";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
-import axios from "axios";
 import BookingCard from "../components/BookingCard";
 import TaskCard from "../components/TaskCard";
 import api from "../config/AxiosInstance";

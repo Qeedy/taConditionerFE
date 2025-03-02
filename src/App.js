@@ -68,6 +68,7 @@ const App = () => {
         visible={registerVisible}
         setVisible={setRegisterVisible}
         toggleToLogin={toggleToLogin}
+        isAdminAdd={false}
       />
     </Router>
   );

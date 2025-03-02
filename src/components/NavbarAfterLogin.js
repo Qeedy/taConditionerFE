@@ -16,8 +16,6 @@ import {
   NAVBAR_CONTENT_USER,
   NAVBAR_CONTENT_ADMIN,
 } from "../constants/NavbarContentAfterLogin";
-import CIcon from "@coreui/icons-react";
-import * as icon from "@coreui/icons";
 import AuthService from "../services/AuthService";
 import ProfileNavDropDown from "./ProfileNavDropDown";
 

@@ -38,12 +38,6 @@ ChartJS.register(
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const profileData = JSON.parse(localStorage.getItem("user"));
-  const handleViewClick = (bookingId) => {
-    navigate(`/bookings/${bookingId}`);
-  };
-  const handleTaskClick = (bookingId) => {
-    navigate(`/tasks/${bookingId}`);
-  };
   const [recentBookings, setRecentBookings] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -57,6 +51,13 @@ const AdminDashboard = () => {
   const formatRelativeTime = (dateString) => {
     const date = new Date(dateString);
     return formatDistanceToNow(date, { addSuffix: true });
+  };
+
+  const handleViewClick = (bookingId) => {
+    navigate(`/bookings/${bookingId}`);
+  };
+  const handleTaskClick = (bookingId) => {
+    navigate(`/tasks/${bookingId}`);
   };
 
   const formatRemainingTime = (dateString) => {

@@ -15,7 +15,6 @@ import {
 } from "@coreui/react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
-import axios from "axios";
 import { SERVICE_TYPE_OPTIONS } from "../constants/ServiceTypeConstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,7 +25,7 @@ import api from "../config/AxiosInstance";
 
 const TaskDetail = () => {
   const { bookingId } = useParams();
-  const profileData = AuthService.getProfileData;
+  const profileData = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [bookingData, setBookingData] = useState(null);
   const [error, setError] = useState(null);
@@ -76,22 +75,23 @@ const TaskDetail = () => {
   }, [bookingId]);
 
   useEffect(() => {
-    if (taskId === "approval-payment-task") {
+    handleFetchData(bookingId);
+  }, []);
+
+  useEffect(() => {
+    if (taskId === "approval-booking-task") {
       handleFetchTechnician();
     }
   }, [taskId]);
 
   const handleStatusUpdate = async (status) => {
     let newErrors = {};
-    if (taskId === "approval-payment-task" && !selectedTechnician) {
+    if (taskId === "approval-booking-task" && !selectedTechnician) {
       newErrors.selectedTechnician = "Please select a technician.";
     }
-    if (taskId === "create-invoice-task") {
+    if (taskId === "customer-booking-task") {
       if (!paymentMethod) {
         newErrors.paymentMethod = "Please select a payment method.";
-      }
-      if (!totalCost) {
-        newErrors.totalCost = "Please enter the total cost.";
       }
     }
     if (Object.keys(newErrors).length > 0) {
@@ -102,13 +102,12 @@ const TaskDetail = () => {
       setProcessing(true);
       let body = { isApproved: status };
 
-      if (taskId === "approval-payment-task") {
+      if (taskId === "approval-booking-task") {
         body = { isApproved: status, technicianId: selectedTechnician };
       }
-      if (taskId === "create-invoice-task") {
+      if (taskId === "customer-booking-task") {
         body = {
           isApproved: status,
-          totalCost: totalCost,
           paymentMethod: paymentMethod,
         };
       }
@@ -217,7 +216,7 @@ const TaskDetail = () => {
         </CCol>
         <CCol md="6">
           <h5 className="fw-semibold text-muted mb-1">Technician</h5>
-          {taskId === "approval-payment-task" ? (
+          {taskId === "approval-booking-task" ? (
             <>
               <CFormSelect
                 className="fw-semibold text-muted"
@@ -285,7 +284,7 @@ const TaskDetail = () => {
       <CRow>
         <CCol md="6">
           <h5 className="fw-semibold text-muted mb-1">Payment Method</h5>
-          {taskId === "create-invoice-task" ? (
+          {taskId === "customer-booking-task" ? (
             <>
               <CFormSelect
                 value={paymentMethod}
@@ -308,23 +307,7 @@ const TaskDetail = () => {
         </CCol>
         <CCol md="6">
           <h5 className="fw-semibold text-muted mb-1">Total</h5>
-          {taskId === "create-invoice-task" ? (
-            <>
-              <CFormInput
-                type="number"
-                value={totalCost}
-                onChange={(e) => setTotalCost(e.target.value)}
-                placeholder="Enter total cost"
-              />
-              {errors.totalCost && (
-                <CAlert color="danger" className="mt-2">
-                  {errors.totalCost}
-                </CAlert>
-              )}
-            </>
-          ) : (
-            <h5>Rp. {bookingData.totalCost}</h5>
-          )}
+          <h5>Rp. {bookingData.totalCost}</h5>
         </CCol>
       </CRow>
       <CRow className="mt-4">
@@ -336,13 +319,12 @@ const TaskDetail = () => {
             onClick={() => handleStatusUpdate(true)}
           >
             {processing ? <CSpinner size="sm" className="me-2" /> : null}
-            {taskId !== "booking-process-task" &&
-            taskId !== "create-invoice-task"
+            {taskId !== "booking-process-task" && taskId !== "completion-task"
               ? "Accept"
               : "Done"}
           </CButton>
           {taskId !== "booking-process-task" &&
-            taskId !== "create-invoice-task" && (
+            taskId !== "completion-task" && (
               <CButton
                 color="danger"
                 className="px-4 text-white fw-bold"

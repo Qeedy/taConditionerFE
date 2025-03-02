@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  CContainer,
-  CRow,
-  CCol,
   CButton,
-  CFormInput,
+  CCol,
+  CContainer,
+  CFormSelect,
   CFormTextarea,
+  CRow
 } from "@coreui/react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns/AdapterDateFns";
 import { format } from "date-fns";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../config/AxiosInstance";
 import { SERVICE_TIME_OPTIONS } from "../constants/ServiceTimeConstants";
 import { SERVICE_TYPE_OPTIONS } from "../constants/ServiceTypeConstants";
-import AuthService from "../services/AuthService";
-import api from "../config/AxiosInstance";
 
 
 const CreateBooking = () => {
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [serviceList, setServiceList] = useState([]);
+  const [selectedService, setSelectedService] = useState({serviceName: "", serviceType:"", cost:0});
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookingDate, setBookingDate] = useState(null);
@@ -28,9 +28,6 @@ const CreateBooking = () => {
   const profileData = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
-  useEffect(() => {
-
-  }, [])
   const handleAddressSelection = (option) => {
     setSelectedAddress(option);
     if (option === "Same as my address") {
@@ -40,21 +37,28 @@ const CreateBooking = () => {
     }
   };
 
+  const handleSelectedService = (uuid) => {
+    setSelectedService(serviceList.find(item => item.uuid === uuid))
+  };
+
   const handleCreateBooking = async () => {
     if (!selectedService || !selectedAddress || !selectedTime || !bookingDate) {
       alert("Please fill in all required fields.");
       return;
     }
-    console.log(profileData)
-
+    console.log(selectedService);
     const bookingData = {
       customerId: profileData.uuid,
-      serviceType: selectedService,
+      serviceType: selectedService.serviceType,
+      serviceName: selectedService.serviceName,
+      cost: selectedService.cost,
       address: address,
       bookingDate: format(bookingDate, "dd-MM-yyyy"),
       serviceTime: selectedTime,
       instruction: instructions,
     };
+
+    console.log(bookingData);
 
     try {
       const response = await api.post(
@@ -69,7 +73,7 @@ const CreateBooking = () => {
       );
 
       console.log("Booking created:", response.data);
-      navigate(`/tasks/${response.data}`);
+      navigate(`/tasks/${response.data}?taskId=customer-booking-task&taskName=Customer%20Booking%20Task`);
     } catch (error) {
       if (error.response) {
         console.error("Error Response:", error.response.data);
@@ -86,6 +90,30 @@ const CreateBooking = () => {
     }
   };
 
+  useEffect(() => {
+    if (selectedServiceType) {
+      fetchServiceList(selectedServiceType);
+    }
+  }, [selectedServiceType]);
+
+  const fetchServiceList = async (serviceType) => {
+    try {
+      console.log(serviceType);
+      const response = await api.get(
+        `/service/get-by-type?serviceType=${serviceType}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${profileData.token}`,
+          },
+        }
+      );
+      setServiceList(response.data);
+    } catch (error) {
+      console.error("Error fetching service list:", error);
+    }
+  };
+
   return (
     <CContainer className="py-5" style={{ maxWidth: "600px" }}>
       {/* Header */}
@@ -98,17 +126,35 @@ const CreateBooking = () => {
           <CCol key={service.value} md="auto">
             <CButton
               className={`px-3 py-2 rounded-pill border shadow-sm ${
-                selectedService === service.value
+                selectedServiceType === service.value
                   ? "bg-secondary text-white shadow"
                   : "bg-light"
               }`}
-              onClick={() => setSelectedService(service.value)}
+              onClick={() => setSelectedServiceType(service.value)}
             >
               {service.text}
             </CButton>
           </CCol>
         ))}
       </CRow>
+
+      {serviceList.length > 0 && (
+        <CRow className="mb-4">
+          <h5 className="fw-bold">Select a Service</h5>
+          <CFormSelect
+            className="mb-3"
+            value={selectedService.uuid}
+            onChange={(e) => handleSelectedService(e.target.value)}
+          >
+            <option value="">Select a service</option>
+            {serviceList.map((service) => (
+              <option key={service.uuid} value={service.uuid}>
+                {service.serviceName}
+              </option>
+            ))}
+          </CFormSelect>
+        </CRow>
+      )}
 
       {/* Address */}
       <h5 className="fw-bold">Where should we work?</h5>

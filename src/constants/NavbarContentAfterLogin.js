@@ -34,11 +34,23 @@ export const NAVBAR_CONTENT_TECHNICIAN = [
         redirect: '/dashboard' 
     },
     { 
+        name: 'Services', 
+        redirect: '/services' 
+    },
+    { 
+        name: 'Users', 
+        redirect: '/users' 
+    },
+    { 
         name: 'Bookings', 
         redirect: '/bookings' 
     },
     { 
         name: 'Tasks', 
         redirect: '/tasks' 
+    },
+    { 
+        name: 'Report', 
+        redirect: '/report' 
     }
   ];

@@ -7,6 +7,10 @@ import CreateBooking from '../pages/CreateBooking';
 import Tasks from '../pages/Tasks';
 import TaskDetail from '../pages/TaskDetail';
 import Dashboard from '../pages/Dashboard';
+import Services from '../pages/Services';
+import Users from '../pages/Users';
+import Report from '../pages/Report';
+import RegisterComplete from '../pages/RegisterComplete';
 
 
 const Home = React.lazy(() => import('../pages/Home'));
@@ -22,6 +26,10 @@ const routes = [
   { path: '/create-booking', exact: false, name: 'Dashboard', element: <ProtectedRoute><CreateBooking/></ProtectedRoute>},
   { path: '/bookings', exact: true, name: 'Bookings', element: <ProtectedRoute><Bookings /></ProtectedRoute> },
   { path: '/tasks', exact: true, name: 'Bookings', element: <ProtectedRoute><Tasks /></ProtectedRoute> },
+  { path: '/services', exact: true, name: 'Bookings', element: <ProtectedRoute><Services /></ProtectedRoute> },
+  { path: '/report', exact: true, name: 'Bookings', element: <ProtectedRoute><Report /></ProtectedRoute> },
+  { path: '/users', exact: true, name: 'Bookings', element: <ProtectedRoute><Users /></ProtectedRoute> },
+  { path: '/registerComplete', exact: true, name: 'Bookings', element: <RegisterComplete /> },
   { 
     path: '/bookings/:bookingId', 
     exact: true, 

@@ -12,9 +12,6 @@ const login = async (email, password) => {
 const register = async (registerUserModel) => {
   const response = await api.post(`/auth/register`, registerUserModel);
   console.log(response.data)
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
-  }
   return response.data;
 };
 
@@ -39,8 +36,8 @@ const getGender = () => {
 
 const handleRegister = async (registerUserModel, onSuccess, onError) => {
   try {
-    const user = await register(registerUserModel);
-    if (onSuccess) onSuccess(user); 
+    const test = await register(registerUserModel);
+    if (onSuccess) onSuccess(test); 
   } catch (error) {
     if (onError)
       onError(error.response?.data?.message || "Invalid credentials"); 

@@ -21,11 +21,36 @@ import api from "../config/AxiosInstance";
 
 const BookingDetail = () => {
   const { bookingId } = useParams();
-  const profileData = AuthService.getProfileData;
+  const profileData = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [bookingData, setBookingData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const handleExportDocument = async () => {
+    try {
+      const response = await api.get(`/booking/report/${bookingId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${profileData.token}`,
+        },
+        responseType: "blob", // Penting untuk menangani file PDF
+      });
+  
+      // Buat link untuk mendownload file PDF
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `${bookingId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  
+    } catch (error) {
+      console.error("Failed to export document:", error);
+      alert("Error generating PDF");
+    }
+  };
 
   const handleFetchData = async (bookingId) => {
     try {
@@ -50,6 +75,10 @@ const BookingDetail = () => {
   useEffect(() => {
     handleFetchData(bookingId);
   }, [bookingId]);
+
+  useEffect(() => {
+    handleFetchData(bookingId);
+  }, []);
 
   if (loading) {
     return (
@@ -191,11 +220,11 @@ const BookingDetail = () => {
       </CRow>
 
       {/* Export Button */}
-      {/* <CRow className="mt-4">
+      <CRow className="mt-4">
         <CCol md="auto">
-          <CButton color="primary" size="lg">Export Document</CButton>
+          <CButton color="primary" size="lg" onClick={handleExportDocument}>Export Document</CButton>
         </CCol>
-      </CRow> */}
+      </CRow>
     </CContainer>
   );
 };

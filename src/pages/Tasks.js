@@ -18,7 +18,6 @@ import CIcon from "@coreui/icons-react";
 import { cilSearch } from "@coreui/icons";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import AuthService from "../services/AuthService";
 import { SERVICE_TIME_OPTIONS } from "../constants/ServiceTimeConstants";
 import { SERVICE_TYPE_OPTIONS } from "../constants/ServiceTypeConstants";
