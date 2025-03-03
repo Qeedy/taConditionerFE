@@ -97,7 +97,7 @@ const Report = () => {
       const blob = new Blob([response.data], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = `booking_l.pdf`;
+      link.download = `booking_list.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
