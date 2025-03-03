@@ -131,8 +131,9 @@ const BookingDetail = () => {
       <hr />
       <CRow className="mb-3">
         <CCol md="6">
-          <h5 className="fw-semibold text-muted mb-1">Service Type</h5>
+          <h5 className="fw-semibold text-muted mb-1">Service</h5>
           <h5>
+            {bookingData.serviceName}, {" "}
             {
               SERVICE_TYPE_OPTIONS.find(
                 (option) => option.value === bookingData.serviceType
